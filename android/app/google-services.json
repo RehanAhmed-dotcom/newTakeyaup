@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "999701609002",
+    "project_id": "takeyaup-f5b6d",
+    "storage_bucket": "takeyaup-f5b6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999701609002:android:26cbcf5809bedce0a02153",
+        "android_client_info": {
+          "package_name": "com.newtakeyaupapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999701609002-995f6oqilr8575a5uqe9302butrsfgkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD_OHhv89UOboBhWHXAQeEMWf-nsdYnKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999701609002-995f6oqilr8575a5uqe9302butrsfgkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
