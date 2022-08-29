@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   ScrollView,
+  Linking,
   Platform,
   KeyboardAvoidingView,
   Modal,
@@ -14,6 +15,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import {register} from '../../../lib/api';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -45,6 +47,7 @@ const SignUp = ({navigation}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('');
   const [dob, setDob] = useState('');
+  const [terms, setTerms] = useState(false);
   console.log('fcm', pic);
   // const [terms,setTerms ] = useState('');
   const validateEmail = emailC => {
@@ -251,6 +254,8 @@ const SignUp = ({navigation}) => {
                   if (password != confirm) {
                     setPasswordErr('asd');
                     setConfirmErr('asd');
+                  } else if (!terms) {
+                    Alert.alert('Accept Terms and Conditions');
                   } else {
                     setShowModal(true);
                     const data = new FormData();
@@ -356,6 +361,23 @@ const SignUp = ({navigation}) => {
               <Text style={styles.already}>Already have an account? </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.red}>Login</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.signUpView}>
+              <Icon1
+                name={terms ? 'check-box' : 'check-box-outline-blank'}
+                size={20}
+                color="black"
+                onPress={() => setTerms(!terms)}
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL('https://takeyaup.com/terms-and-conditions')
+                }>
+                <Text
+                  style={{fontSize: 12, fontWeight: 'bold', color: 'black'}}>
+                  By using the Takeyaup you agree to our Terms of Services
+                </Text>
               </TouchableOpacity>
             </View>
             <View style={styles.empty} />

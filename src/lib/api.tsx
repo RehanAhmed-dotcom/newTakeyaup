@@ -502,6 +502,44 @@ const updateToken = payload => {
       console.log('in update token');
     });
 };
+const deleteAccount = payload => {
+  const request = `/delete-user`;
+  authorizedHeaders.Authorization = `Bearer ${payload.Auth}`;
+  return axios
+    .post(request, payload, {headers: authorizedHeaders})
+    .then(({data, status}) => {
+      return status === 200 || status === 201 ? data : null;
+    })
+    .catch(e => {
+      console.log('in delete account');
+    });
+};
+const blockUser = payload => {
+  console.log('payload of block', payload);
+  const request = `/block-user`;
+  authorizedHeaders.Authorization = `Bearer ${payload.Auth}`;
+  return axios
+    .post(request, payload, {headers: authorizedHeaders})
+    .then(({data, status}) => {
+      return status === 200 || status === 201 ? data : null;
+    })
+    .catch(e => {
+      console.log('in block user');
+    });
+};
+const reportBet = payload => {
+  console.log('payload of block', payload);
+  const request = `/report-bet`;
+  authorizedHeaders.Authorization = `Bearer ${payload.Auth}`;
+  return axios
+    .post(request, payload, {headers: authorizedHeaders})
+    .then(({data, status}) => {
+      return status === 200 || status === 201 ? data : null;
+    })
+    .catch(e => {
+      console.log('in report user');
+    });
+};
 const CreateBet = (payload, data) => {
   console.log('data in create', data);
   const request = `/create-bet`;
@@ -520,6 +558,7 @@ const CreateBet = (payload, data) => {
       console.log('in Create bet', e);
     });
 };
+
 export {
   login,
   register,
@@ -559,5 +598,8 @@ export {
   postDetails,
   notificationList,
   changeNotificationstatus,
+  blockUser,
+  deleteAccount,
+  reportBet,
   updateToken,
 };
