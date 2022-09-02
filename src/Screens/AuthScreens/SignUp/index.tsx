@@ -48,6 +48,8 @@ const SignUp = ({navigation}) => {
   const [date, setDate] = useState('');
   const [dob, setDob] = useState('');
   const [terms, setTerms] = useState(false);
+
+  const [eula, setEula] = useState(false);
   console.log('fcm', pic);
   // const [terms,setTerms ] = useState('');
   const validateEmail = emailC => {
@@ -256,6 +258,8 @@ const SignUp = ({navigation}) => {
                     setConfirmErr('asd');
                   } else if (!terms) {
                     Alert.alert('Accept Terms and Conditions');
+                  } else if (!eula) {
+                    Alert.alert('Accept EULA');
                   } else {
                     setShowModal(true);
                     const data = new FormData();
@@ -377,6 +381,25 @@ const SignUp = ({navigation}) => {
                 <Text
                   style={{fontSize: 12, fontWeight: 'bold', color: 'black'}}>
                   By using the Takeyaup you agree to our Terms of Services
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.signUpView}>
+              <Icon1
+                name={eula ? 'check-box' : 'check-box-outline-blank'}
+                size={20}
+                color="black"
+                onPress={() => setEula(!eula)}
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL(
+                    'https://takeyaup.com/standard-contractual-clause',
+                  )
+                }>
+                <Text
+                  style={{fontSize: 12, fontWeight: 'bold', color: 'black'}}>
+                  By using the Takeyaup you agree to our EULA
                 </Text>
               </TouchableOpacity>
             </View>

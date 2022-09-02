@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Keyboard,
+  Modal,
   TextInput,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon1 from 'react-native-vector-icons/Ionicons';
+import Icon2 from 'react-native-vector-icons/Entypo';
 // import {senderMsg, recieverMsg} from '../../../../lib/messageUtilis';
 // import database from '@react-native-firebase/database';
 // import {GiftedChat} from 'react-native-gifted-chat';
@@ -20,6 +23,8 @@ import {
   showComment,
   sendMessage,
   PostLikes,
+  reportBet,
+  blockUser,
 } from '../../../../lib/api';
 import {
   heightPercentageToDP as hp,
@@ -41,6 +46,10 @@ const Chat = ({navigation, route}) => {
   const [check, setCheck] = useState(false);
   const [senderCount, setSenderCount] = useState('');
   const [receiverCount, setReceiverCount] = useState('');
+  const [repblok, setRepBlock] = useState(false);
+  const [block, setBlock] = useState(false);
+  const [report, setReport] = useState(false);
+  const [reason, setReason] = useState('');
   useEffect(() => {
     betCount({Auth: userData.token, id: item.id}).then(res => {
       console.log('res', res);
@@ -73,6 +82,343 @@ const Chat = ({navigation, route}) => {
       hideSubscription.remove();
     };
   }, []);
+  const myModal4 = () => (
+    <Modal animationType="slide" transparent={true} visible={repblok}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#00000088',
+        }}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            height: '50%',
+            width: '90%',
+            borderRadius: 10,
+            // alignItems: 'center',
+            // justifyContent: 'center',
+          }}>
+          <View
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            <Icon2
+              name="circle-with-cross"
+              size={20}
+              color={'black'}
+              onPress={() => setRepBlock(false)}
+            />
+          </View>
+          <View
+            style={{
+              // backgroundColor: 'black',
+              alignItems: 'center',
+
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                setRepBlock(false);
+                setBlock(true);
+              }}
+              style={{
+                height: 50,
+                width: '90%',
+                backgroundColor: 'black',
+                borderRadius: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>
+                Block User
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setRepBlock(false);
+                setReport(true);
+              }}
+              style={{
+                height: 50,
+                width: '90%',
+                backgroundColor: 'black',
+                borderRadius: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 20,
+              }}>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>
+                Report content
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* <ActivityIndicator size="large" color={'black'} /> */}
+        </View>
+      </View>
+    </Modal>
+  );
+  const myModal5 = () => (
+    <Modal animationType="slide" transparent={true} visible={block}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#00000088',
+        }}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            height: '30%',
+            width: '90%',
+            borderRadius: 10,
+            // alignItems: 'center',
+            // justifyContent: 'center',
+          }}>
+          <View
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            <Icon2
+              name="circle-with-cross"
+              size={20}
+              color={'black'}
+              onPress={() => setBlock(false)}
+            />
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 10,
+              marginRight: 10,
+            }}>
+            <Text style={{color: 'black'}}>Block user</Text>
+          </View>
+          <View
+            style={{
+              // backgroundColor: 'black',
+              alignItems: 'center',
+              flexDirection: 'row',
+
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                blockUser({
+                  Auth: userData.token,
+                  block_user_id: item.sender.id,
+                }).then(res => {
+                  // setChange(!change);
+                  Alert.alert('Blocked user');
+                  console.log('res of block', res);
+                  // console.log('res', res);
+                  // if (res.is_like == 'true') {
+                  //   // setCount(count + 1);
+                  //
+                  // }
+                });
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                // height: '100%',
+                width: 70,
+                height: 100,
+                // backgroundColor: 'red',
+                // borderRadius: 50,
+              }}>
+              <Image
+                source={
+                  item?.sender?.image
+                    ? {uri: item.sender.image}
+                    : require('../../../../Images/place.jpg')
+                }
+                style={{width: 50, height: 50, borderRadius: 50}}
+              />
+              {!item?.sender?.image && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    width: 70,
+                    bottom: 0,
+                    height: 70,
+                    // backgroundColor: 'blue',
+                    zIndex: 3,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text style={{color: 'black'}}>
+                    {item?.sender?.username.charAt(0)}
+                  </Text>
+                </View>
+              )}
+              {/* <View style={{flexDirection: 'row', marginTop: 20}}>
+                <Image
+                  source={require('../../../../Images/Capture.png')}
+                  style={{width: 20, height: 20}}
+                />
+                <Text style={{marginLeft: 5, color: 'black'}}>
+                  {senderCount ? senderCount : item.like_count_sender}
+                </Text>
+              </View> */}
+            </TouchableOpacity>
+            {item?.receiver?.id && (
+              <TouchableOpacity
+                onPress={() => {
+                  blockUser({
+                    Auth: userData.token,
+                    block_user_id: item?.receiver.id,
+                  }).then(res => {
+                    Alert.alert('Blocked user');
+                    console.log('res of block', res);
+                    // if (res.is_like == 'true') {
+                    //   // setCount(count + 1);
+                    //
+                    // }
+                  });
+                }}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: 100,
+                  width: 70,
+                  // borderRadius: 50,
+                  // backgroundColor:
+                  //   item.winner_id == item.receiver.id ? 'green' : 'red',
+                }}>
+                <Image
+                  source={
+                    item?.receiver?.image
+                      ? {uri: item?.receiver?.image}
+                      : require('../../../../Images/place.jpg')
+                  }
+                  style={{width: 50, height: 50, borderRadius: 50}}
+                />
+                {!item?.receiver?.image && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      width: 70,
+                      bottom: 0,
+                      height: 70,
+                      // backgroundColor: 'red',
+                      zIndex: 3,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{color: 'black'}}>
+                      {item?.receiver?.username.charAt(0)}
+                    </Text>
+                  </View>
+                )}
+                {/* <View style={{flexDirection: 'row', marginTop: 20}}>
+                    <Image
+                      source={require('../../../../Images/Capture.png')}
+                      style={{width: 20, height: 20}}
+                    />
+                    <Text style={{marginLeft: 5, color: 'black'}}>
+                      {receiverCount ? receiverCount : item.like_count_receiver}
+                    </Text>
+                  </View> */}
+              </TouchableOpacity>
+            )}
+          </View>
+          {/* <ActivityIndicator size="large" color={'black'} /> */}
+        </View>
+      </View>
+    </Modal>
+  );
+  const myModal6 = () => (
+    <Modal animationType="slide" transparent={true} visible={report}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#00000088',
+        }}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            height: '50%',
+            width: '90%',
+            borderRadius: 10,
+            // alignItems: 'center',
+            // justifyContent: 'center',
+          }}>
+          <View
+            style={{alignItems: 'flex-end', marginTop: 10, marginRight: 10}}>
+            <Icon2
+              name="circle-with-cross"
+              size={20}
+              color={'black'}
+              onPress={() => setReport(false)}
+            />
+          </View>
+          <View style={{alignItems: 'center'}}>
+            <Text>Report Content</Text>
+          </View>
+          <View
+            style={{
+              // backgroundColor: 'black',
+              alignItems: 'center',
+
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <TextInput
+              placeholder={'Report content'}
+              placeholderTextColor="grey"
+              value={reason}
+              onChangeText={text => {
+                setReason(text);
+                // emailErr && setEmailErr('');
+              }}
+              style={{
+                // marginLeft: 15,
+                // backgroundColor: 'red',
+                height: 50,
+                fontFamily: 'Nunito-Regular',
+                fontSize: 16,
+                // marginBottom: 20,
+                borderWidth: 3,
+                borderColor: 'grey',
+                paddingLeft: 10,
+                color: 'black',
+                width: '80%',
+                // marginTop: 20,
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                if (reason) {
+                  reportBet({
+                    Auth: userData.token,
+                    bet_id: item.id,
+                    reason,
+                  }).then(res => {
+                    console.log('res of block', res);
+                    setReport(false);
+                  });
+                }
+              }}
+              style={{
+                height: 50,
+                width: '90%',
+                backgroundColor: 'black',
+                borderRadius: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 20,
+              }}>
+              <Text style={{color: 'white', fontWeight: 'bold'}}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+          {/* <ActivityIndicator size="large" color={'black'} /> */}
+        </View>
+      </View>
+    </Modal>
+  );
   // const emailToUniqueString = email => email.replace(/[^a-zA-Z0-9 ]/g, '');
   useEffect(() => {
     showComment({Auth: userData.token, id: item.id}).then(res => {
@@ -300,7 +646,7 @@ const Chat = ({navigation, route}) => {
             borderColor: 'grey',
             paddingLeft: 10,
             color: 'black',
-            width: '70%',
+            width: '65%',
             // marginTop: 20,
           }}
         />
@@ -322,6 +668,7 @@ const Chat = ({navigation, route}) => {
             height: 50,
             borderRadius: 5,
             marginTop: 0,
+            marginRight: 10,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'black',
@@ -329,7 +676,16 @@ const Chat = ({navigation, route}) => {
           }}>
           <Text style={{color: 'white'}}>Send</Text>
         </TouchableOpacity>
+        <Icon2
+          name="flag"
+          size={20}
+          color={'black'}
+          onPress={() => setRepBlock(true)}
+        />
       </View>
+      {myModal4()}
+      {myModal5()}
+      {myModal6()}
     </SafeAreaView>
   );
 };
