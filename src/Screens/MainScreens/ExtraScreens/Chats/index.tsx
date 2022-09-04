@@ -191,7 +191,7 @@ const Chat = ({navigation, route}) => {
               marginTop: 10,
               marginRight: 10,
             }}>
-            <Text style={{color: 'black'}}>Block user</Text>
+            <Text style={{color: 'black'}}>Block users</Text>
           </View>
           <View
             style={{

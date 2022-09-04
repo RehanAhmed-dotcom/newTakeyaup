@@ -36,6 +36,7 @@ import CompleteUpload from '../Screens/MainScreens/ExtraScreens/CompleteUpload';
 import NewPost from '../Screens/MainScreens/TabScreens/NewPost';
 import contact from '../Screens/MainScreens/ExtraScreens/Contact';
 import Setting from '../Screens/MainScreens/TabScreens/Setting';
+import Blocked from '../Screens/MainScreens/ExtraScreens/Blocked';
 const Root = () => {
   const {isLoggedIn} = useSelector(({USER}) => USER);
   return (
@@ -46,6 +47,7 @@ const Root = () => {
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
             <Stack.Screen name="Chat" component={Chat} />
             <Stack.Screen name="Chats" component={Chats} />
+            <Stack.Screen name="Blocked" component={Blocked} />
             <Stack.Screen name="Setting" component={Setting} />
             <Stack.Screen name="NewPost" component={NewPost} />
             <Stack.Screen name="SendBet" component={SendBet} />

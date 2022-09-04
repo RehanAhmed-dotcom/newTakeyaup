@@ -86,7 +86,7 @@ const Home = ({navigation}) => {
     setDob(moment(date).format('YYYY-MM-DD'));
     hideDatePicker();
   };
-  console.log('data', completeSearch[0]);
+  // console.log('data', completeSearch[0]);
   const render = ({item}) => (
     <>
       <View
@@ -608,8 +608,9 @@ const Home = ({navigation}) => {
     //   setHome(res.bets.reverse());
     //   setHomeSearch(res.bets.reverse());
     // });
+    console.log('user', userData.token);
     open({Auth: userData.token}).then(res => {
-      // console.log('res of open', JSON.stringify(res));
+      console.log('res of open', JSON.stringify(res));
       setOpenarr(res.open_bets);
       setOpenarrSearch(res.open_bets);
     });

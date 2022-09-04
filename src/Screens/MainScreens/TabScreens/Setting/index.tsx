@@ -132,6 +132,18 @@ const Setting = ({navigation}) => {
           <Icon name="right" size={20} color={'black'} />
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate('Blocked')}
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingHorizontal: 15,
+            marginTop: 30,
+          }}>
+          <Text style={{color: 'black'}}>Blocked Users</Text>
+          <Icon name="right" size={20} color={'black'} />
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() =>
             Alert.alert(
               'Delete Account',

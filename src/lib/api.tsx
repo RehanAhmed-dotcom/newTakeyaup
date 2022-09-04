@@ -237,6 +237,18 @@ const betCount = payload => {
       console.log('in bet count', e);
     });
 };
+const blockList = payload => {
+  const request = `/block-user-list`;
+  authorizedHeaders.Authorization = `Bearer ${payload.Auth}`;
+  return axios
+    .get(request, {headers: authorizedHeaders})
+    .then(({data, status}) => {
+      return status === 200 || status === 201 ? data : null;
+    })
+    .catch(e => {
+      console.log('in block list', e);
+    });
+};
 const doComment = payload => {
   const request = `/comment`;
   authorizedHeaders.Authorization = `Bearer ${payload.Auth}`;
@@ -490,6 +502,18 @@ const changeNotificationstatus = payload => {
       console.log('in change status', e);
     });
 };
+const unBlock = payload => {
+  const request = `/unblock-user`;
+  authorizedHeaders.Authorization = `Bearer ${payload.Auth}`;
+  return axios
+    .post(request, payload, {headers: authorizedHeaders})
+    .then(({data, status}) => {
+      return status === 200 || status === 201 ? data : null;
+    })
+    .catch(e => {
+      console.log('in unblock-user', e);
+    });
+};
 const updateToken = payload => {
   const request = `/update-fcm`;
   authorizedHeaders.Authorization = `Bearer ${payload.Auth}`;
@@ -599,6 +623,8 @@ export {
   notificationList,
   changeNotificationstatus,
   blockUser,
+  unBlock,
+  blockList,
   deleteAccount,
   reportBet,
   updateToken,
