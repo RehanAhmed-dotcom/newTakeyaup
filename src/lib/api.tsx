@@ -45,9 +45,11 @@ const enterEmail = payload => {
     })
     .catch(e => {
       console.log('in forgot email', e);
+      throw e;
     });
 };
 const otp = payload => {
+  console.log('otp', payload);
   const request = `/confirm`;
   return axios
     .post(request, payload)
@@ -56,6 +58,7 @@ const otp = payload => {
     })
     .catch(e => {
       console.log('in otp', e);
+      throw e;
     });
 };
 const newPassword = payload => {

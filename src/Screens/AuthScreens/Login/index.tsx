@@ -107,20 +107,26 @@ const Login = ({navigation}) => {
               onPress={() => {
                 if (validateEmail(forgotMail)) {
                   setShowModal(true);
-                  enterEmail({email: forgotMail}).then(res => {
-                    console.log('r', res);
-                    if (res) {
-                      if (res.status == 'success') {
+                  enterEmail({email: forgotMail})
+                    .then(res => {
+                      console.log('r', res);
+                      if (res) {
+                        if (res.status == 'success') {
+                          setShowModal(false);
+                          setModalVisible(!modalVisible);
+                          setModalVisible1(!modalVisible1);
+                        }
+                      } else {
                         setShowModal(false);
-                        setModalVisible(!modalVisible);
-                        setModalVisible1(!modalVisible1);
+                        setForgotMailErr('asd');
                       }
-                    } else {
+                    })
+                    .catch(err => {
                       setShowModal(false);
-                      setForgotMailErr('asd');
-                    }
-                  });
+                      console.log('error in email', err.response.message);
+                    });
                 } else {
+                  setShowModal(false);
                   setForgotMailErr('asd');
                 }
               }}
@@ -154,7 +160,7 @@ const Login = ({navigation}) => {
             <Text style={styles.left}>Enter 4 digits code</Text>
           </View>
           <Text style={styles.normalText}>
-            Enter 4 digits code that you received on your emial.
+            Enter 4 digits code that you received on your email.
           </Text>
           <CodeField
             ref={ref}
@@ -190,22 +196,28 @@ const Login = ({navigation}) => {
             onPress={() => {
               if (value.length == 4) {
                 setShowModal(true);
-                otp({token: value}).then(res => {
-                  console.log('res', res);
-                  if (res) {
-                    if (res.status == 'success') {
+                otp({token: value})
+                  .then(res => {
+                    console.log('res', res);
+                    if (res) {
+                      if (res.status == 'success') {
+                        setShowModal(false);
+                        setModalVisible1(!modalVisible1);
+                        setModalVisible2(!modalVisible2);
+                      }
+                    } else {
                       setShowModal(false);
-                      setModalVisible1(!modalVisible1);
-                      setModalVisible2(!modalVisible2);
+                      setCodeErr('asd');
+                      // setShowModal(false);
+                      // setModalVisible1(!modalVisible1);
+                      // setModalVisible2(!modalVisible2);
                     }
-                  } else {
+                  })
+                  .catch(err => {
                     setShowModal(false);
                     setCodeErr('asd');
-                    // setShowModal(false);
-                    // setModalVisible1(!modalVisible1);
-                    // setModalVisible2(!modalVisible2);
-                  }
-                });
+                    console.log('err', err.response.message);
+                  });
               } else {
                 setCodeErr('asd');
               }
@@ -294,7 +306,7 @@ const Login = ({navigation}) => {
                     newPassword({
                       email: forgotMail,
                       password: forgotPass,
-                      confirm_password: confirm,
+                      password_confirmation: confirm,
                       token: value,
                     }).then(res => {
                       if (res) {
@@ -304,7 +316,7 @@ const Login = ({navigation}) => {
                         }
                       } else {
                         setShowModal(false);
-                        Alert.alert('Some thing went wrong');
+                        Alert.alert('Something went wrong');
                       }
                     });
                     //
